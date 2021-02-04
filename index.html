@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="searchPlace" value="Ramganj" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" id="searchBtn" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <!-- <img id="weatherImage" src="https://openweathermap.org/img/wn/02n@2x.png" alt=""> -->
+            <img id="weatherImage"  alt="">
+            <h1 id="placeName">Dhaka</h1>
+            <h3><span id="temperature">38.06</span> <span id="unit">&deg;C</span></h3>
+            <h1 id="situation" class="lead">Clouds</h1>
+            <p id="sunSet"  style="color: yellow; font-size:large"></p>
+            <p id="sunRise" style="color: yellow; font-size:large"></p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', function (e) {
+            // if (e.key === 'Enter') {
+                const place = document.getElementById('searchPlace').value;
+             
+            
+             // const link = 'http://api.openweathermap.org/data/2.5/weather?q='+place+'&APPID=cb89ebb4599388efba1df9fb84264217'
+             // fetch(link)
+             fetch('http://api.openweathermap.org/data/2.5/weather?q='+place+'&APPID=cb89ebb4599388efba1df9fb84264217')
+             
+                 .then(response => response.json())
+                 .then(data => {
+                     document.getElementById('placeName').innerText = data.name;
+                     let temperature = data.main.temp - 273;
+                     document.getElementById('temperature').innerText = temperature.toFixed(2);
+                     document.getElementById('situation').innerText = data.weather[0].description;
+                     let icon = data.weather[0].icon;
+                     document.getElementById('weatherImage').setAttribute('src','https://openweathermap.org/img/wn/'+icon+'@2x.png');
+                    let sunRise = new Date(data.sys.sunrise*1000);
+                     document.getElementById('sunRise').innerText =`Sun rise:  ${sunRise.toUTCString()} `;
+                     let sunSet = new Date(data.sys.sunset*1000);
+                     document.getElementById('sunSet').innerText =`Sunset:  ${sunSet.toUTCString()} `;
+
+                     console.log(icon)
+                     console.log(data);
+                 }) 
+            // }
+
+        })
+
+
+    </script>
+
+</body>
+
+</html>

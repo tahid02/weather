@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme</title>
+</head>
+<body>
+    <h1>hello all</h1>
+    <div id="container">
+        <img alt="meme" id="image" style="height: 500px;width: 500px;">
+    </div>
+    <script>
+        fetch('https://www.reddit.com/r/memes.json')
+        .then(response => response.json())
+        .then(meme => {
+            
+            const index = Math.floor(Math.random()*27); // even, image will be different in same index.
+            console.log('now index is',index);
+
+            const memeLink =  meme.data.children[index].data.url_overridden_by_dest;
+            console.log('meme link ',memeLink);
+
+            document.getElementById('image').setAttribute('src',memeLink)
+            console.log(meme);
+        })
+    </script>
+</body>
+</html>
