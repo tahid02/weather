@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
@@ -47,18 +47,23 @@
             
              // const link = 'http://api.openweathermap.org/data/2.5/weather?q='+place+'&APPID=cb89ebb4599388efba1df9fb84264217'
              // fetch(link)
-             fetch('http://api.openweathermap.org/data/2.5/weather?q='+place+'&APPID=cb89ebb4599388efba1df9fb84264217')
+             fetch('https://api.openweathermap.org/data/2.5/weather?q='+place+'&APPID=cb89ebb4599388efba1df9fb84264217')
              
                  .then(response => response.json())
                  .then(data => {
                      document.getElementById('placeName').innerText = data.name;
+
                      let temperature = data.main.temp - 273;
                      document.getElementById('temperature').innerText = temperature.toFixed(2);
+
                      document.getElementById('situation').innerText = data.weather[0].description;
+
                      let icon = data.weather[0].icon;
                      document.getElementById('weatherImage').setAttribute('src','https://openweathermap.org/img/wn/'+icon+'@2x.png');
+
                     let sunRise = new Date(data.sys.sunrise*1000);
                      document.getElementById('sunRise').innerText =`Sun rise:  ${sunRise.toUTCString()} `;
+
                      let sunSet = new Date(data.sys.sunset*1000);
                      document.getElementById('sunSet').innerText =`Sunset:  ${sunSet.toUTCString()} `;
 
